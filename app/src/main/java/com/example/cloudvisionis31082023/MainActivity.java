@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity
         implements OnSuccessListener<Text>, OnFailureListener {
     public static int REQUEST_CAMERA = 111;
     public static int REQUEST_GALLERY = 222;
-    public int imageSize = 224;
+    public int tamanio_imagen = 224;
     ArrayList<String> permisosNoAprobados;
     TextView txtResults;
     ImageView mImageView;
@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity
                 mImageView.setImageBitmap(mSelectedImage);
 
                 //Llamada a función para reconocer el rostro apenas cargue la imagen seleccionada.
-                Bitmap imagen = Bitmap.createScaledBitmap(mSelectedImage, imageSize, imageSize, false);
+                Bitmap imagen = Bitmap.createScaledBitmap(mSelectedImage, tamanio_imagen, tamanio_imagen, false);
                 Reconocer(imagen);
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity
 
         //Definir un bitmap para enviarlo al modelo creado.
         Bitmap image = imagenBase.getBitmap().copy(imagenBase.getBitmap().getConfig(), false);
-        image = Bitmap.createScaledBitmap(image, imageSize, imageSize, true);
+        image = Bitmap.createScaledBitmap(image, tamanio_imagen, tamanio_imagen, true);
 
         Reconocer(image);
     }
@@ -148,16 +148,16 @@ public class MainActivity extends AppCompatActivity
             BitmapDrawable imagenBase = (BitmapDrawable) mImageView.getDrawable();
 
             //Definir un bitmap para enviarlo al modelo creado.
-            imagen = Bitmap.createScaledBitmap(imagen, imageSize, imageSize, true);
+            imagen = Bitmap.createScaledBitmap(imagen, tamanio_imagen, tamanio_imagen, true);
 
             //Establecer las dimensiones que tendrá la imágen.
-            TensorBuffer inputFeature0 = TensorBuffer.createFixedSize(new int[]{1, imageSize, imageSize, 3}, DataType.FLOAT32);
-            ByteBuffer byteBuffer = ByteBuffer.allocateDirect(4 * imageSize * imageSize * 3);
+            TensorBuffer inputFeature0 = TensorBuffer.createFixedSize(new int[]{1, tamanio_imagen, tamanio_imagen, 3}, DataType.FLOAT32);
+            ByteBuffer byteBuffer = ByteBuffer.allocateDirect(4 * tamanio_imagen * tamanio_imagen * 3);
             byteBuffer.order(ByteOrder.nativeOrder());
 
             //Obtener los pixeles de la imagen e iterar cada uno de los pixeles para obtener el color respectivo
             //en formato RGB (Red, green, blue).
-            int[] intValues = new int[imageSize * imageSize];
+            int[] intValues = new int[tamanio_imagen * tamanio_imagen];
             imagen.getPixels(intValues, 0, imagen.getWidth(), 0, 0, imagen.getWidth(), imagen.getHeight());
 
             int pixel = 0;
